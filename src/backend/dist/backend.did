@@ -1,0 +1,65 @@
+type UserId = text;
+type Timestamp = int;
+type Role = 
+ variant {
+   Admin;
+   Member;
+ };
+type MemberStats = 
+ record {
+   approvedCount: nat;
+   totalApprovedAmount: nat;
+ };
+type LoginResult = 
+ variant {
+   InvalidCredentials;
+   Ok: record {
+         displayName: text;
+         role: Role;
+         userId: UserId;
+       };
+ };
+type ClaimStatus = 
+ variant {
+   Approved;
+   Pending;
+   Rejected;
+ };
+type ClaimId = nat;
+type Claim = 
+ record {
+   amount: nat;
+   createdAt: Timestamp;
+   id: ClaimId;
+   memberId: UserId;
+   notes: opt text;
+   status: ClaimStatus;
+ };
+type AnnouncementId = nat;
+type Announcement = 
+ record {
+   authorId: UserId;
+   body: text;
+   createdAt: Timestamp;
+   id: AnnouncementId;
+   title: text;
+ };
+service : {
+  adminRegisterUser: (callerId: UserId, newUserId: UserId, password: 
+   text, displayName: text, role: Role) -> (bool);
+  approveClaim: (callerId: text, id: ClaimId) -> (bool);
+  createAnnouncement: (callerId: text, title: text, body: text) ->
+   (AnnouncementId);
+  deleteAnnouncement: (callerId: text, id: AnnouncementId) -> (bool);
+  getMyClaims: (callerId: text) -> (vec Claim) query;
+  getMyStats: (callerId: text) -> (MemberStats) query;
+  getPendingClaims: (callerId: text) -> (vec Claim) query;
+  getRole: (userId: UserId) -> (opt Role) query;
+  listAllClaims: (callerId: text) -> (vec Claim) query;
+  listAnnouncements: () -> (vec Announcement) query;
+  login: (userId: UserId, password: text) -> (LoginResult);
+  registerMember: (userId: UserId, password: text, displayName: text) ->
+   (bool);
+  rejectClaim: (callerId: text, id: ClaimId) -> (bool);
+  submitClaim: (callerId: text, amount: nat, notes: opt text) -> (ClaimId);
+}

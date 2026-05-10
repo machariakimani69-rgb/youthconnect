@@ -1,0 +1,133 @@
+// Version: 3.0.0
+type AnnouncementId__365153885 = Nat;
+type AnnouncementId__675324675 = AnnouncementId__365153885;
+type Announcement__160704614 =
+  {
+    authorId : UserId__158757552;
+    body : Text;
+    createdAt : Timestamp__327008783;
+    id : AnnouncementId__675324675;
+    title : Text
+  };
+type ClaimId__206014568 = ClaimId__263834452;
+type ClaimId__263834452 = Nat;
+type ClaimStatus__3201339 = {#Approved; #Pending; #Rejected};
+type Claim__666449797 =
+  {
+    amount : Nat;
+    createdAt : Timestamp__19409121;
+    id : ClaimId__206014568;
+    memberId : UserId__158757552;
+    notes : ?Text;
+    status : ClaimStatus__3201339
+  };
+type Data__159895909<T> = {var count : Nat__490723111; elements : [var ?T]};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__667636161<T> =
+  {children : [var ?Node__92254746<T>]; data : Data__159895909<T>};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__520550824<T> = {data : Data__159895909<T>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Node__92254746<T> =
+  {#internal : Internal__667636161<T>; #leaf : Leaf__520550824<T>};
+type OldCheckInRecord__288983469 =
+  {checkedInAt : Int; sessionId : Nat; studentId : OldUserId__580276348};
+type OldRole__987685965 = {#Lecturer; #Student};
+type OldSessionStatus__716775817 = {#Active; #Ended; #Scheduled};
+type OldSessionToken__164330075 = Text;
+type OldSession__397807616 =
+  {
+    courseName : Text;
+    var endedAt : ?Int;
+    id : Nat;
+    lecturerId : OldUserId__580276348;
+    location : Text;
+    scheduledAt : Int;
+    var startedAt : ?Int;
+    var status : OldSessionStatus__716775817;
+    token : OldSessionToken__164330075
+  };
+type OldUserId__580276348 = Text;
+type OldUser__655922588 =
+  {
+    displayName : Text;
+    id : OldUserId__580276348;
+    var passwordHash : Text;
+    role : OldRole__987685965
+  };
+type Role__490071529 = {#Admin; #Member};
+type Set__532252804<T> = Set__710576254<T>;
+type Set__710576254<T> =
+  {var root : Node__92254746<T>; var size : Nat__490723111};
+type Timestamp__19409121 = Timestamp__301639476;
+type Timestamp__301639476 = Int;
+type Timestamp__327008783 = Timestamp__301639476;
+type UserId__158757552 = Text;
+type UserId__911210446 = UserId__158757552;
+type User__455962502 =
+  {
+    displayName : Text;
+    id : UserId__911210446;
+    passwordHash : Text;
+    role : Role__490071529
+  };
+actor ({
+  stable announcementCounter : {var next : Nat};
+  stable announcements :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Announcement__160704614]];
+      var elementIndex : Nat__490723111
+    };
+  in attendeeSets : Map__605269027<Nat, Set__532252804<OldUserId__580276348>>;
+  in checkIns : List__415060402<OldCheckInRecord__288983469>;
+  stable claimCounter : {var next : Nat};
+  stable claims :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Claim__666449797]];
+      var elementIndex : Nat__490723111
+    };
+  in var nextSessionId : Nat;
+  in sessions : List__415060402<OldSession__397807616>;
+  in tokenIndex : Map__605269027<OldSessionToken__164330075, Nat>;
+  in users : Map__605269027<OldUserId__580276348, OldUser__655922588>
+}, {
+  stable announcementCounter : {var next : Nat};
+  stable announcements :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Announcement__160704614]];
+      var elementIndex : Nat__490723111
+    };
+  stable claimCounter : {var next : Nat};
+  stable claims :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Claim__666449797]];
+      var elementIndex : Nat__490723111
+    };
+  stable seeded : {var done : Bool};
+  stable users :
+    {
+      var root : Node__46230540<UserId__911210446, User__455962502>;
+      var size : Nat__490723111
+    }
+}) ;

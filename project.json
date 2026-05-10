@@ -1,0 +1,20 @@
+{
+  "overview": "A church youth website where leaders post announcements and manage contribution records, while youth members track their giving and submit claims — all optimized for mobile phones.",
+  "features": [
+    "Admin dashboard for announcements and contribution management",
+    "Youth member dashboard with personal contribution history",
+    "Contribution claims panel for youth to submit money contributions",
+    "Approve/reject workflow for admin to validate claims",
+    "Mobile-first responsive design for phone users"
+  ],
+  "category": "community",
+  "tags": [
+    "church",
+    "youth",
+    "contributions",
+    "announcements",
+    "community",
+    "mobile"
+  ],
+  "last_updated": "2026-05-10T16:46:44.171Z"
+}
